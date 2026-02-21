@@ -316,7 +316,7 @@ async def scan_attendance(scan_data: AttendanceScan):
 async def get_today_attendance():
     """Get all attendance for today"""
     today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    records = await db.attendance.find({"date": today_str}, {"_id": 0}).to_list(None)
+    records = await db.attendance.find({"date": today_str}, {"_id": 0}).to_list(2000)
     return records
 
 @api_router.get("/attendance/class/{grade}/{subsection}")
@@ -328,13 +328,13 @@ async def get_class_attendance(grade: int, subsection: str):
     students = await db.students.find(
         {"class_grade": grade, "class_subsection": subsection},
         {"_id": 0, "face_descriptor": 0}
-    ).to_list(None)
+    ).to_list(100)
     
     # Get attendance records
     records = await db.attendance.find(
         {"class_grade": grade, "class_subsection": subsection, "date": today_str},
         {"_id": 0}
-    ).to_list(None)
+    ).to_list(100)
     
     return {
         "total_students": len(students),
