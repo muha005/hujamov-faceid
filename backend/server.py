@@ -234,7 +234,7 @@ async def register_student(student_data: StudentCreate):
 
 @api_router.get("/students", response_model=List[Student])
 async def get_students():
-    students = await db.students.find({}, {"_id": 0}).to_list(None)
+    students = await db.students.find({}, {"_id": 0}).to_list(2000)
     
     for student in students:
         if isinstance(student.get('registered_at'), str):
@@ -247,7 +247,7 @@ async def get_students_by_class(grade: int, subsection: str):
     students = await db.students.find(
         {"class_grade": grade, "class_subsection": subsection},
         {"_id": 0, "face_descriptor": 0}
-    ).to_list(None)
+    ).to_list(100)
     return students
 
 # Attendance routes
