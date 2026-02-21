@@ -351,7 +351,7 @@ async def get_weekly_analytics():
     week_start_str = week_start.strftime("%Y-%m-%d")
     
     # Get all students grouped by class
-    students = await db.students.find({}, {"_id": 0, "face_descriptor": 0}).to_list(None)
+    students = await db.students.find({}, {"_id": 0, "face_descriptor": 0}).to_list(2000)
     
     # Group by class
     classes = {}
