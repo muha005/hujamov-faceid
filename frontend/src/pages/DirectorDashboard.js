@@ -179,9 +179,9 @@ const DirectorDashboard = ({ onLogout }) => {
                       }}
                     />
                     <Legend wrapperStyle={{ paddingTop: '20px' }} />
-                    <Bar dataKey="келген" fill="#10b981" radius={[8, 8, 0, 0]} />
-                    <Bar dataKey="кечикти" fill="#f59e0b" radius={[8, 8, 0, 0]} />
-                    <Bar dataKey="келген жок" fill="#ef4444" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="present" name={t('present')} fill="#10b981" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="late" name={t('late')} fill="#f59e0b" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="absent" name={t('absent')} fill="#ef4444" radius={[8, 8, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
