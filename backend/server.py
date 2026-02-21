@@ -375,7 +375,7 @@ async def get_weekly_analytics():
     records = await db.attendance.find(
         {"date": {"$gte": week_start_str}},
         {"_id": 0}
-    ).to_list(None)
+    ).to_list(5000)
     
     # Aggregate statistics
     for record in records:
