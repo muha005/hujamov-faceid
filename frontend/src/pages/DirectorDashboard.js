@@ -67,9 +67,9 @@ const DirectorDashboard = ({ onLogout }) => {
 
   const chartData = weeklyData.map((cls) => ({
     name: cls.class_name,
-    [келген]: cls.total_present,
-    [кечикти]: cls.total_late,
-    [келген жок]: cls.total_absent,
+    present: cls.total_present,
+    late: cls.total_late,
+    absent: cls.total_absent,
   }));
 
   return (
