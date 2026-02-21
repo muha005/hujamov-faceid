@@ -1,0 +1,137 @@
+{
+  "project_name": "Rejap Khujamov Attendance System",
+  "design_philosophy": {
+    "identity": "E1 Anti-AI Designer",
+    "core_principles": [
+      "Fusion over Imitation: Academic Authority meets Tech Fluidity",
+      "Emotion First: Pride in attendance, Anxiety in absence (handled gently)",
+      "Content is King: Data must be legible at a glance",
+      "Zoom In: Face scan is the 'Hero Moment'",
+      "Negative Space: High density data needs breathing room"
+    ],
+    "anti_patterns": [
+      "Purple/Teal generic SaaS gradients",
+      "Inter everywhere (Headings must be Manrope)",
+      "Center-everything layouts (Use grids)",
+      "Default Shadcn look (Must customize radii and shadows)"
+    ]
+  },
+  "typography": {
+    "font_family": {
+      "headings": "Manrope, sans-serif",
+      "body": "Inter, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-4xl md:text-5xl font-bold tracking-tight leading-none",
+      "h2": "text-3xl font-semibold tracking-tight",
+      "h3": "text-2xl font-semibold tracking-tight",
+      "body_lg": "text-lg leading-relaxed",
+      "body": "text-base leading-relaxed text-slate-600",
+      "caption": "text-sm text-slate-500 font-medium uppercase tracking-wider"
+    },
+    "rules": [
+      "Never use Inter for headings > 24px",
+      "Headings should be dark navy (#0F172A)",
+      "Use tabular nums for data tables: font-variant-numeric: tabular-nums"
+    ]
+  },
+  "colors": {
+    "palette": {
+      "background": "#F8FAFC",
+      "foreground": "#0F172A",
+      "card": "#FFFFFF",
+      "card_foreground": "#0F172A",
+      "primary": "#2563EB",
+      "primary_foreground": "#FFFFFF",
+      "secondary": "#F1F5F9",
+      "secondary_foreground": "#1E293B",
+      "muted": "#F1F5F9",
+      "muted_foreground": "#64748B",
+      "accent": "#EFF6FF",
+      "accent_foreground": "#1D4ED8",
+      "destructive": "#F43F5E",
+      "destructive_foreground": "#FFFFFF",
+      "success": "#10B981",
+      "success_foreground": "#FFFFFF",
+      "warning": "#F59E0B",
+      "warning_foreground": "#FFFFFF",
+      "border": "#E2E8F0",
+      "input": "#E2E8F0",
+      "ring": "#2563EB"
+    },
+    "gradients": {
+      "hero_glow": "radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.15) 0%, rgba(255, 255, 255, 0) 70%)",
+      "scan_line": "linear-gradient(to bottom, transparent, #2563EB, transparent)"
+    }
+  },
+  "layout_strategies": {
+    "dashboard_grid": {
+      "type": "Bento Grid",
+      "classes": "grid grid-cols-1 md:grid-cols-4 gap-6 p-6",
+      "areas": {
+        "summary": "col-span-1",
+        "main_chart": "col-span-2 row-span-2",
+        "feed": "col-span-1 row-span-2"
+      }
+    },
+    "scan_interface": {
+      "type": "Central Focus",
+      "classes": "flex flex-col items-center justify-center min-h-screen bg-slate-50 relative overflow-hidden",
+      "elements": [
+        "Webcam feed: rounded-2xl shadow-2xl border-4 border-white w-[640px] max-w-full aspect-video z-10",
+        "Overlay: absolute inset-0 z-20 pointer-events-none",
+        "Status Message: absolute bottom-12 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-8 py-4 rounded-full shadow-xl font-bold text-xl z-30 transition-all"
+      ]
+    }
+  },
+  "components": {
+    "shadcn_customization": [
+      "Radius: 0.75rem (Rounded-xl) for cards, 0.5rem (Rounded-lg) for buttons",
+      "Shadows: shadow-sm for cards, shadow-md for hover states",
+      "Borders: 1px solid #E2E8F0 (Slate 200)",
+      "Inputs: bg-slate-50 border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all",
+      "Buttons: font-semibold tracking-wide. Primary: bg-blue-600 hover:bg-blue-700 active:scale-95 transition-transform"
+    ],
+    "face_recognition": {
+      "canvas_setup": "Canvas must perfectly overlay the video element. Handle resize events.",
+      "feedback": {
+        "scanning": "White bounding box with thin stroke",
+        "success": "Green (#10B981) thick bounding box + Scale up animation + Checkmark icon",
+        "error": "Red (#F43F5E) bounding box + Shake animation + X icon"
+      }
+    }
+  },
+  "assets": {
+    "icons": "Use 'lucide-react' for all UI icons. Use 'flag-icon-css' or simple SVGs for language toggle.",
+    "images": {
+      "login_bg": "https://images.unsplash.com/photo-1758611228434-7b5b697abd0a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBzY2hvb2wlMjBidWlsZGluZyUyMGV4dGVyaW9yJTIwYXJjaGl0ZWN0dXJlfGVufDB8fHx8MTc3MTY4NzgwNHww&ixlib=rb-4.1.0&q=85",
+      "student_portal_hero": "https://images.unsplash.com/photo-1758270705172-07b53627dfcb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzZ8MHwxfHNlYXJjaHwxfHxzdHVkZW50cyUyMHN0dWR5aW5nJTIwaW4lMjBtb2Rlcm4lMjBjbGFzc3Jvb20lMjBkaXZlcnNlfGVufDB8fHx8MTc3MTY5ODk3Mnww&ixlib=rb-4.1.0&q=85"
+    }
+  },
+  "accessibility": {
+    "contrast": "Ensure 4.5:1 ratio for normal text. Use Slate-900 on Slate-50.",
+    "focus_states": "All interactive elements must have a visible focus ring (offset-2 ring-2 ring-blue-500).",
+    "motion": "Respect prefers-reduced-motion. Wrap framing-motion animations in checks."
+  },
+  "universal_guidelines": [
+    "DO NOT use gradients for dark backgrounds.",
+    "Use 'sonner' for toast notifications.",
+    "All interactive elements MUST have 'data-testid'.",
+    "Use 'Manrope' for all Headings (h1-h3).",
+    "Use 'Inter' for Body text.",
+    "Spacing: Use multiples of 4. Minimum padding inside cards: p-6.",
+    "Language Toggle: Must be visible on all public pages (Top Right).",
+    "Face API: Load models from '/models' directory. Ensure models are cached.",
+    "Excel Export: Button should be prominent on the Dashboard (Green 'Success' variant)."
+  ],
+  "instructions_to_main_agent": [
+    "1. Install 'lucide-react', 'recharts' (for analytics), 'framer-motion', 'face-api.js', 'xlsx' (for export), 'sonner'.",
+    "2. Configure Tailwind with the palette provided above.",
+    "3. Create the 'FaceScan' component with strict state management (Idle -> Scanning -> Success/Error -> Cooldown).",
+    "4. Implement the '1-hour Auto-Absent' logic in the backend (FastAPI background task or cron).",
+    "5. Use 'Recharts' for the Class Attendance Analytics (BarChart for attendance, LineChart for trends).",
+    "6. Ensure the 'Director Dashboard' uses the Bento Grid layout defined.",
+    "7. Mock the backend calls if actual API is not ready, but structure the data interfaces strictly (Class, Student, AttendanceRecord)."
+  ]
+}
