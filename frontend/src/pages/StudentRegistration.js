@@ -111,7 +111,7 @@ const StudentRegistration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.fullName || !formData.classGrade || !formData.classSubsection) {
+    if (!formData.fullName || !formData.classGrade || !formData.classSubsection || !formData.shift) {
       toast.error(language === 'ky' ? 'Бардык талааларды толтуруңуз' : 'Заполните все поля');
       return;
     }
@@ -128,6 +128,7 @@ const StudentRegistration = () => {
         full_name: formData.fullName,
         class_grade: parseInt(formData.classGrade),
         class_subsection: formData.classSubsection,
+        shift: formData.shift,
         face_descriptor: faceDescriptor,
       });
 
