@@ -23,6 +23,7 @@ const StudentRegistration = () => {
     fullName: '',
     classGrade: '',
     classSubsection: '',
+    shift: '',
   });
   const [faceDescriptor, setFaceDescriptor] = useState(null);
   const [capturing, setCapturing] = useState(false);
