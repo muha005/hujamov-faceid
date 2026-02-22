@@ -381,7 +381,7 @@ async def get_registration_stats():
 # Attendance routes
 @api_router.post("/attendance/scan")
 async def scan_attendance(scan_data: AttendanceScan):
-    """Record attendance scan"""
+    """Record attendance scan for both students and teachers"""
     # Get scan time
     if scan_data.scan_time:
         scan_time = datetime.fromisoformat(scan_data.scan_time)
@@ -390,12 +390,34 @@ async def scan_attendance(scan_data: AttendanceScan):
     
     today_str = scan_time.strftime("%Y-%m-%d")
     
-    # Get student
+    # Try to find as student first
     student = await db.students.find_one({"id": scan_data.student_id}, {"_id": 0})
+    teacher = None
     
     if not student:
-        raise HTTPException(status_code=404, detail="Student not found")
+        # Try to find as teacher
+        teacher = await db.teachers.find_one({"id": scan_data.student_id}, {"_id": 0})
     
+    if not student and not teacher:
+        raise HTTPException(status_code=404, detail="Person not found")
+    
+    # Handle teacher scan
+    if teacher:
+        # Verify face match
+        distance = euclidean_distance(scan_data.face_descriptor, teacher['face_descriptor'])
+        
+        if distance > 0.6:
+            raise HTTPException(status_code=403, detail="Face does not match")
+        
+        return {
+            "success": True,
+            "role": "teacher",
+            "full_name": teacher['full_name'],
+            "subject": teacher['subject'],
+            "message": f"Welcome, {teacher['full_name']}! You are the {teacher['subject']} teacher."
+        }
+    
+    # Handle student scan
     # Verify face match (basic threshold check)
     distance = euclidean_distance(scan_data.face_descriptor, student['face_descriptor'])
     
@@ -442,6 +464,7 @@ async def scan_attendance(scan_data: AttendanceScan):
     
     return {
         "success": True,
+        "role": "student",
         "student_name": student['full_name'],
         "class": f"{student['class_grade']}-{student['class_subsection']}",
         "status": status,
