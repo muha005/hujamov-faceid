@@ -119,6 +119,11 @@ const translations = {
     
     // Registration
     studentRegistration: 'Регистрация ученика',
+    teacherRegistration: 'Регистрация учителя',
+    selectRole: 'Выберите роль',
+    student: 'Ученик',
+    teacher: 'Учитель',
+    subject: 'Предмет',
     fullName: 'Полное имя',
     classGrade: 'Класс',
     classSubsection: 'Подгруппа',
