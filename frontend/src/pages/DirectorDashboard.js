@@ -115,8 +115,8 @@ const DirectorDashboard = ({ onLogout }) => {
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Export Button */}
-            <div className="flex justify-end">
+            {/* Action Buttons */}
+            <div className="flex gap-4">
               <Button
                 onClick={handleExport}
                 className="bg-green-600 hover:bg-green-700 text-white"
@@ -124,6 +124,14 @@ const DirectorDashboard = ({ onLogout }) => {
               >
                 <Download className="h-5 w-5 mr-2" />
                 {t('exportReport')}
+              </Button>
+              <Button
+                onClick={() => navigate('/director/students')}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+                data-testid="student-management-btn"
+              >
+                <UserCog className="h-5 w-5 mr-2" />
+                {t('studentManagement')}
               </Button>
             </div>
 
