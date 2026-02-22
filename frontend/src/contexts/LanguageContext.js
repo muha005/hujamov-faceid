@@ -62,7 +62,11 @@ const translations = {
     viewDetails: 'Толук көрүү',
     noData: 'Маалымат жок',
     studentManagement: 'Окуучуларды башкаруу',
+    teacherManagement: 'Мугалимдерди башкаруу',
     registrationStats: 'Каттоо статистикасы',
+    totalTeachers: 'Бардыгы мугалимдер',
+    welcomeTeacher: 'Кош келиңиз',
+    youAreTeacher: 'Сиз',
     
     // Director Login
     directorLogin: 'Директор кирүүсү',
