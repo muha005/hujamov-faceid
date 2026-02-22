@@ -38,7 +38,7 @@ class Student(BaseModel):
     full_name: str
     class_grade: int  # 5-11
     class_subsection: str  # А, Б, В, Г, Д, Е, Ё
-    shift: str  # "morning" or "afternoon"
+    shift: str  # "morning" or "afternoon" - now manually selectable
     face_descriptor: List[float]
     registered_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -46,6 +46,7 @@ class StudentCreate(BaseModel):
     full_name: str
     class_grade: int
     class_subsection: str
+    shift: str  # Now required from frontend
     face_descriptor: List[float]
 
 class AttendanceRecord(BaseModel):
@@ -77,20 +78,6 @@ class Director(BaseModel):
     password_hash: str
 
 # Helper Functions
-def get_shift_for_class(grade: int) -> str:
-    """Determine shift based on class grade"""
-    morning_classes = [5, 8, 9, 10, 11]
-    afternoon_classes = [6, 7]
-    
-    if grade in morning_classes:
-        return "morning"
-    elif grade in afternoon_classes:
-        return "afternoon"
-    else:
-        # Handle edge case for grade 5 (appears in both shifts)
-        # Default to morning for grade 5
-        return "morning"
-
 def get_shift_start_time(shift: str) -> time:
     """Get shift start time"""
     if shift == "morning":
@@ -111,6 +98,19 @@ def calculate_lateness(scan_time: datetime, shift: str) -> tuple[str, int]:
     else:
         minutes_late = int((scan_time_local - shift_start_dt).total_seconds() / 60)
         return "late", minutes_late
+
+def is_before_shift_start(scan_time: datetime, shift: str) -> tuple[bool, str]:
+    """Check if scan is before shift start time"""
+    shift_start = get_shift_start_time(shift)
+    scan_time_local = scan_time.replace(tzinfo=None)
+    shift_start_dt = datetime.combine(scan_time_local.date(), shift_start)
+    
+    if scan_time_local < shift_start_dt:
+        time_until = shift_start_dt - scan_time_local
+        hours = int(time_until.total_seconds() // 3600)
+        minutes = int((time_until.total_seconds() % 3600) // 60)
+        return True, f"{shift_start.strftime('%H:%M')}"
+    return False, ""
 
 def euclidean_distance(desc1: List[float], desc2: List[float]) -> float:
     """Calculate Euclidean distance between two face descriptors"""
@@ -215,14 +215,11 @@ async def create_director(credentials: DirectorLogin):
 @api_router.post("/students", response_model=Student)
 async def register_student(student_data: StudentCreate):
     """Register a new student with face descriptor"""
-    # Determine shift based on class
-    shift = get_shift_for_class(student_data.class_grade)
-    
     student = Student(
         full_name=student_data.full_name,
         class_grade=student_data.class_grade,
         class_subsection=student_data.class_subsection,
-        shift=shift,
+        shift=student_data.shift,  # Now from user input
         face_descriptor=student_data.face_descriptor
     )
     
@@ -250,6 +247,55 @@ async def get_students_by_class(grade: int, subsection: str):
     ).to_list(100)
     return students
 
+@api_router.delete("/students/{student_id}")
+async def delete_student(student_id: str):
+    """Delete a student and all their attendance records"""
+    # Check if student exists
+    student = await db.students.find_one({"id": student_id}, {"_id": 0})
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+    # Delete student
+    await db.students.delete_one({"id": student_id})
+    
+    # Delete all attendance records
+    await db.attendance.delete_many({"student_id": student_id})
+    
+    return {
+        "success": True,
+        "message": f"Student {student['full_name']} and all attendance records deleted"
+    }
+
+@api_router.get("/students/registration-stats")
+async def get_registration_stats():
+    """Get registration statistics - total students and registered students per class"""
+    students = await db.students.find({}, {"_id": 0, "face_descriptor": 0}).to_list(2000)
+    
+    # Group by class
+    stats = {}
+    for student in students:
+        class_key = f"{student['class_grade']}-{student['class_subsection']}"
+        if class_key not in stats:
+            stats[class_key] = {
+                "class_name": class_key,
+                "grade": student['class_grade'],
+                "subsection": student['class_subsection'],
+                "shift": student['shift'],
+                "registered_count": 0,
+                "students": []
+            }
+        stats[class_key]['registered_count'] += 1
+        stats[class_key]['students'].append({
+            "id": student['id'],
+            "full_name": student['full_name'],
+            "registered_at": student.get('registered_at', '')
+        })
+    
+    return {
+        "total_registered": len(students),
+        "classes": list(stats.values())
+    }
+
 # Attendance routes
 @api_router.post("/attendance/scan")
 async def scan_attendance(scan_data: AttendanceScan):
@@ -273,6 +319,14 @@ async def scan_attendance(scan_data: AttendanceScan):
     
     if distance > 0.6:  # Strict threshold
         raise HTTPException(status_code=403, detail="Face does not match")
+    
+    # Check if scanning before shift starts
+    is_early, shift_start_time = is_before_shift_start(scan_time, student['shift'])
+    if is_early:
+        raise HTTPException(
+            status_code=400,
+            detail=f"too_early|{shift_start_time}"
+        )
     
     # Check if already scanned today
     existing = await db.attendance.find_one(
