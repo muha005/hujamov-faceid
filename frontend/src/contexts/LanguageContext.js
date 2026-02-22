@@ -157,7 +157,11 @@ const translations = {
     viewDetails: 'Подробнее',
     noData: 'Нет данных',
     studentManagement: 'Управление учениками',
+    teacherManagement: 'Управление учителями',
     registrationStats: 'Статистика регистрации',
+    totalTeachers: 'Всего учителей',
+    welcomeTeacher: 'Добро пожаловать',
+    youAreTeacher: 'Вы',
     
     // Director Login
     directorLogin: 'Вход директора',
