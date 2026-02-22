@@ -137,8 +137,8 @@ async def mark_auto_absences():
 
 async def process_absences_for_shift(shift: str, date_str: str):
     """Process absences for a specific shift"""
-    # Get all students in this shift
-    students = await db.students.find({"shift": shift}, {"_id": 0}).to_list(5000)
+    # Get all students in this shift (exclude face_descriptor to save memory)
+    students = await db.students.find({"shift": shift}, {"_id": 0, "face_descriptor": 0}).to_list(5000)
     
     # Get all attendance records for today
     attended = await db.attendance.find({"date": date_str, "shift": shift}, {"_id": 0}).to_list(5000)
