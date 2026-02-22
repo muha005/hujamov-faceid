@@ -49,6 +49,19 @@ class StudentCreate(BaseModel):
     shift: str  # Now required from frontend
     face_descriptor: List[float]
 
+class Teacher(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    full_name: str
+    subject: str  # Subject they teach (e.g., Mathematics, Informatics, English)
+    face_descriptor: List[float]
+    registered_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class TeacherCreate(BaseModel):
+    full_name: str
+    subject: str
+    face_descriptor: List[float]
+
 class AttendanceRecord(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
