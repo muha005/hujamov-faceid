@@ -12,19 +12,24 @@ const translations = {
     
     // Scan Station
     attendanceScanning: 'Катышуу скандалууда',
-    scanYourFace: 'Өзүңүздүн жүзүңүздү скандаңыз',
+    scanYourFace: 'Өзүңүздүн жүзүңүздү сканданыз',
     scanning: 'Скандалууда...',
     loadingCamera: 'Камера жүктөлүүдө...',
     success: 'Ийгиликтүү!',
     alreadyScanned: 'Сиз бүгүн эле скандадыңыз',
     notStudent: 'Сиз окуучу эмессиз',
     error: 'Ката',
+    tooEarly: 'Сабагыңыз али башталган жок',
+    shiftStartsAt: 'Сабактар башталат',
     
     // Registration
     studentRegistration: 'Окуучуну катто',
     fullName: 'Толук аты',
     classGrade: 'Класс',
     classSubsection: 'Бөлүм',
+    selectShift: 'Сменаны тандаңыз',
+    morningShift: 'Эртеңки смена (08:00)',
+    afternoonShift: 'Түштөн кийинки смена (13:00)',
     captureFace: 'Жүздү тартуу',
     faceNotCaptured: 'Жүз тартылган жок',
     faceCaptured: 'Жүз тартылды',
@@ -51,6 +56,8 @@ const translations = {
     minutes: 'мүнөт',
     viewDetails: 'Толук көрүү',
     noData: 'Маалымат жок',
+    studentManagement: 'Окуучуларды башкаруу',
+    registrationStats: 'Каттоо статистикасы',
     
     // Director Login
     directorLogin: 'Директор кирүүсү',
@@ -66,6 +73,19 @@ const translations = {
     status: 'Абалы',
     scanTime: 'Скандоо убактысы',
     minutesLate: 'Кечигүү (мүн)',
+    
+    // Student Management
+    registeredStudents: 'Катталган окуучулар',
+    totalRegistered: 'Бардыгы катталды',
+    registeredAt: 'Катталган убакыт',
+    actions: 'Аракеттер',
+    deleteStudent: 'Окуучуну өчүрүү',
+    confirmDelete: 'Чындап өчүргүңүз келеби?',
+    deleteConfirm: 'Ооба, өчүрүү',
+    cancel: 'Жокко чыгаруу',
+    shift: 'Смена',
+    morning: 'Эртең',
+    afternoon: 'Түштөн кийин',
   },
   ru: {
     // Home Page
@@ -85,12 +105,17 @@ const translations = {
     alreadyScanned: 'Вы уже отсканировали сегодня',
     notStudent: 'Вы не являетесь учеником',
     error: 'Ошибка',
+    tooEarly: 'Ваши занятия еще не начались',
+    shiftStartsAt: 'Занятия начинаются в',
     
     // Registration
     studentRegistration: 'Регистрация ученика',
     fullName: 'Полное имя',
     classGrade: 'Класс',
     classSubsection: 'Подгруппа',
+    selectShift: 'Выберите смену',
+    morningShift: 'Утренняя смена (08:00)',
+    afternoonShift: 'Дневная смена (13:00)',
     captureFace: 'Захват лица',
     faceNotCaptured: 'Лицо не захвачено',
     faceCaptured: 'Лицо захвачено',
@@ -117,6 +142,8 @@ const translations = {
     minutes: 'мин',
     viewDetails: 'Подробнее',
     noData: 'Нет данных',
+    studentManagement: 'Управление учениками',
+    registrationStats: 'Статистика регистрации',
     
     // Director Login
     directorLogin: 'Вход директора',
@@ -132,6 +159,19 @@ const translations = {
     status: 'Статус',
     scanTime: 'Время сканирования',
     minutesLate: 'Опоздание (мин)',
+    
+    // Student Management
+    registeredStudents: 'Зарегистрированные ученики',
+    totalRegistered: 'Всего зарегистрировано',
+    registeredAt: 'Зарегистрирован',
+    actions: 'Действия',
+    deleteStudent: 'Удалить ученика',
+    confirmDelete: 'Вы уверены, что хотите удалить?',
+    deleteConfirm: 'Да, удалить',
+    cancel: 'Отмена',
+    shift: 'Смена',
+    morning: 'Утро',
+    afternoon: 'День',
   }
 };
 
