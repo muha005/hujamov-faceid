@@ -24,6 +24,11 @@ const translations = {
     
     // Registration
     studentRegistration: 'Окуучуну катто',
+    teacherRegistration: 'Мугалимди катто',
+    selectRole: 'Ролду тандаңыз',
+    student: 'Окуучу',
+    teacher: 'Мугалим',
+    subject: 'Сабак',
     fullName: 'Толук аты',
     classGrade: 'Класс',
     classSubsection: 'Бөлүм',
