@@ -60,6 +60,16 @@ function App() {
                 )
               }
             />
+            <Route
+              path="/director/students"
+              element={
+                isDirectorAuthenticated ? (
+                  <StudentManagement onLogout={handleDirectorLogout} />
+                ) : (
+                  <Navigate to="/director/login" />
+                )
+              }
+            />
           </Routes>
         </BrowserRouter>
         <Toaster position="top-center" richColors />
