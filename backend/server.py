@@ -279,6 +279,75 @@ async def delete_student(student_id: str):
         "message": f"Student {student['full_name']} and all attendance records deleted"
     }
 
+# Teacher routes
+@api_router.post("/teachers", response_model=Teacher)
+async def register_teacher(teacher_data: TeacherCreate):
+    """Register a new teacher with face descriptor"""
+    teacher = Teacher(
+        full_name=teacher_data.full_name,
+        subject=teacher_data.subject,
+        face_descriptor=teacher_data.face_descriptor
+    )
+    
+    doc = teacher.model_dump()
+    doc['registered_at'] = doc['registered_at'].isoformat()
+    
+    await db.teachers.insert_one(doc)
+    return teacher
+
+@api_router.get("/teachers", response_model=List[Teacher])
+async def get_teachers():
+    teachers = await db.teachers.find({}, {"_id": 0}).to_list(500)
+    
+    for teacher in teachers:
+        if isinstance(teacher.get('registered_at'), str):
+            teacher['registered_at'] = datetime.fromisoformat(teacher['registered_at'])
+    
+    return teachers
+
+@api_router.delete("/teachers/{teacher_id}")
+async def delete_teacher(teacher_id: str):
+    """Delete a teacher"""
+    # Check if teacher exists
+    teacher = await db.teachers.find_one({"id": teacher_id}, {"_id": 0})
+    if not teacher:
+        raise HTTPException(status_code=404, detail="Teacher not found")
+    
+    # Delete teacher
+    await db.teachers.delete_one({"id": teacher_id})
+    
+    return {
+        "success": True,
+        "message": f"Teacher {teacher['full_name']} deleted"
+    }
+
+@api_router.get("/teachers/stats")
+async def get_teacher_stats():
+    """Get teacher statistics"""
+    teachers = await db.teachers.find({}, {"_id": 0, "face_descriptor": 0}).to_list(500)
+    
+    # Group by subject
+    subjects = {}
+    for teacher in teachers:
+        subject = teacher['subject']
+        if subject not in subjects:
+            subjects[subject] = {
+                "subject": subject,
+                "teacher_count": 0,
+                "teachers": []
+            }
+        subjects[subject]['teacher_count'] += 1
+        subjects[subject]['teachers'].append({
+            "id": teacher['id'],
+            "full_name": teacher['full_name'],
+            "registered_at": teacher.get('registered_at', '')
+        })
+    
+    return {
+        "total_teachers": len(teachers),
+        "subjects": list(subjects.values())
+    }
+
 @api_router.get("/students/registration-stats")
 async def get_registration_stats():
     """Get registration statistics - total students and registered students per class"""
