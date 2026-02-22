@@ -246,6 +246,24 @@ const StudentRegistration = () => {
                   </Select>
                 </div>
 
+                <div className="space-y-2">
+                  <Label htmlFor="shift" className="text-sm font-semibold text-slate-700">
+                    {t('selectShift')}
+                  </Label>
+                  <Select
+                    value={formData.shift}
+                    onValueChange={(value) => setFormData({ ...formData, shift: value })}
+                  >
+                    <SelectTrigger className="bg-slate-50 border-slate-200" data-testid="shift-select">
+                      <SelectValue placeholder={language === 'ky' ? 'Сменаны тандаңыз' : 'Выберите смену'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="morning">{t('morningShift')}</SelectItem>
+                      <SelectItem value="afternoon">{t('afternoonShift')}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="pt-4">
                   <div className="flex items-center justify-between mb-2">
                     <Label className="text-sm font-semibold text-slate-700">{t('captureFace')}</Label>
