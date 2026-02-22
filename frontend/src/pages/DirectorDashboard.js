@@ -5,7 +5,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { LogOut, Download, Trophy, TrendingUp, Users, Clock, FileSpreadsheet } from 'lucide-react';
+import { LogOut, Download, Trophy, TrendingUp, Users, Clock, FileSpreadsheet, UserCog } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
