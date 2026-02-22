@@ -6,6 +6,7 @@ import StudentRegistration from './pages/StudentRegistration';
 import DirectorLogin from './pages/DirectorLogin';
 import DirectorDashboard from './pages/DirectorDashboard';
 import ClassDetails from './pages/ClassDetails';
+import StudentManagement from './pages/StudentManagement';
 import { Toaster } from './components/ui/sonner';
 import { LanguageProvider } from './contexts/LanguageContext';
 import './App.css';
