@@ -19,11 +19,13 @@ const StudentRegistration = () => {
   const { t, language, toggleLanguage } = useLanguage();
   const videoRef = useRef(null);
   const [modelsLoaded, setModelsLoaded] = useState(false);
+  const [role, setRole] = useState('student'); // 'student' or 'teacher'
   const [formData, setFormData] = useState({
     fullName: '',
     classGrade: '',
     classSubsection: '',
     shift: '',
+    subject: '', // For teachers
   });
   const [faceDescriptor, setFaceDescriptor] = useState(null);
   const [capturing, setCapturing] = useState(false);
@@ -32,6 +34,7 @@ const StudentRegistration = () => {
 
   const grades = [5, 6, 7, 8, 9, 10, 11];
   const subsections = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё'];
+  const subjects = ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Informatics', 'English', 'Russian', 'Kyrgyz', 'History', 'Geography'];
 
   useEffect(() => {
     loadModels();
