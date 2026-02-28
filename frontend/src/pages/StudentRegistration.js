@@ -213,6 +213,22 @@ const StudentRegistration = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Role Selection */}
+                <div className="space-y-2">
+                  <Label htmlFor="role" className="text-sm font-semibold text-slate-700">
+                    {t('selectRole')}
+                  </Label>
+                  <Select value={role} onValueChange={(value) => setRole(value)}>
+                    <SelectTrigger className="bg-slate-50 border-slate-200" data-testid="role-select">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="student">{t('student')}</SelectItem>
+                      <SelectItem value="teacher">{t('teacher')}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="fullName" className="text-sm font-semibold text-slate-700">
                     {t('fullName')}
@@ -225,6 +241,92 @@ const StudentRegistration = () => {
                     data-testid="full-name-input"
                   />
                 </div>
+
+                {/* Student-specific fields */}
+                {role === 'student' && (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="classGrade" className="text-sm font-semibold text-slate-700">
+                        {t('classGrade')}
+                      </Label>
+                      <Select value={formData.classGrade} onValueChange={(value) => setFormData({ ...formData, classGrade: value })}>
+                        <SelectTrigger className="bg-slate-50 border-slate-200" data-testid="class-grade-select">
+                          <SelectValue placeholder={language === 'ky' ? 'Талдоо' : 'Выбрать'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {grades.map((grade) => (
+                            <SelectItem key={grade} value={grade.toString()}>
+                              {grade}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="classSubsection" className="text-sm font-semibold text-slate-700">
+                        {t('classSubsection')}
+                      </Label>
+                      <Select
+                        value={formData.classSubsection}
+                        onValueChange={(value) => setFormData({ ...formData, classSubsection: value })}
+                      >
+                        <SelectTrigger className="bg-slate-50 border-slate-200" data-testid="class-subsection-select">
+                          <SelectValue placeholder={language === 'ky' ? 'Талдоо' : 'Выбрать'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {subsections.map((subsection) => (
+                            <SelectItem key={subsection} value={subsection}>
+                              {subsection}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="shift" className="text-sm font-semibold text-slate-700">
+                        {t('selectShift')}
+                      </Label>
+                      <Select
+                        value={formData.shift}
+                        onValueChange={(value) => setFormData({ ...formData, shift: value })}
+                      >
+                        <SelectTrigger className="bg-slate-50 border-slate-200" data-testid="shift-select">
+                          <SelectValue placeholder={language === 'ky' ? 'Сменаны тандаңыз' : 'Выберите смену'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="morning">{t('morningShift')}</SelectItem>
+                          <SelectItem value="afternoon">{t('afternoonShift')}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </>
+                )}
+
+                {/* Teacher-specific fields */}
+                {role === 'teacher' && (
+                  <div className="space-y-2">
+                    <Label htmlFor="subject" className="text-sm font-semibold text-slate-700">
+                      {t('subject')}
+                    </Label>
+                    <Select
+                      value={formData.subject}
+                      onValueChange={(value) => setFormData({ ...formData, subject: value })}
+                    >
+                      <SelectTrigger className="bg-slate-50 border-slate-200" data-testid="subject-select">
+                        <SelectValue placeholder={language === 'ky' ? 'Сабакты тандаңыз' : 'Выберите предмет'} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {subjects.map((subject) => (
+                          <SelectItem key={subject} value={subject}>
+                            {subject}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
 
                 <div className="space-y-2">
                   <Label htmlFor="classGrade" className="text-sm font-semibold text-slate-700">
