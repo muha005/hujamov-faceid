@@ -199,7 +199,7 @@ const StudentRegistration = () => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold font-heading text-slate-900 mb-3">
-            {t('studentRegistration')}
+            {role === 'student' ? t('studentRegistration') : t('teacherRegistration')}
           </h1>
         </div>
 
