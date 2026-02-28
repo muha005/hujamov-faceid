@@ -133,6 +133,46 @@ def euclidean_distance(desc1: List[float], desc2: List[float]) -> float:
         return float('inf')
     return sum((a - b) ** 2 for a, b in zip(desc1, desc2)) ** 0.5
 
+def check_teacher_schedule(teacher: dict, scan_time: datetime) -> tuple[bool, str, int]:
+    """Check if teacher is late for a scheduled class"""
+    if not teacher.get('weekly_schedule'):
+        return False, "", 0
+    
+    # Get current day and time
+    day_name = scan_time.strftime('%A')  # Monday, Tuesday, etc.
+    current_time = scan_time.time()
+    
+    schedule = teacher.get('weekly_schedule', {})
+    if day_name not in schedule:
+        return False, "", 0
+    
+    # Check each scheduled class for this day
+    for class_info in schedule[day_name]:
+        class_time_str = class_info.get('time', '')
+        class_name = class_info.get('class', '')
+        
+        if not class_time_str or not class_name:
+            continue
+        
+        # Parse scheduled time
+        try:
+            hour, minute = map(int, class_time_str.split(':'))
+            scheduled_time = time(hour, minute)
+            
+            # If current time is after scheduled time, teacher is late
+            if current_time > scheduled_time:
+                scheduled_dt = datetime.combine(scan_time.date(), scheduled_time)
+                current_dt = datetime.combine(scan_time.date(), current_time)
+                minutes_late = int((current_dt - scheduled_dt).total_seconds() / 60)
+                
+                # Only consider it late if within reasonable window (e.g., within 2 hours of class start)
+                if minutes_late <= 120:
+                    return True, class_name, minutes_late
+        except:
+            continue
+    
+    return False, "", 0
+
 # Auto-absence background task
 async def mark_auto_absences():
     """Mark students as absent if they haven't scanned 1 hour after shift start"""
