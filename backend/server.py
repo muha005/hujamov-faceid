@@ -451,12 +451,26 @@ async def scan_attendance(scan_data: AttendanceScan):
         if distance > 0.6:
             raise HTTPException(status_code=403, detail="Face does not match")
         
+        # Check if teacher is late for a scheduled class
+        is_late, class_name, minutes_late = check_teacher_schedule(teacher, scan_time)
+        
+        base_message = f"Welcome, {teacher['full_name']}! You are the {teacher['subject']} teacher."
+        
+        if is_late and class_name:
+            late_message = f"You have a lesson in Class {class_name} and you are {minutes_late} minutes late."
+            full_message = f"{base_message} {late_message}"
+        else:
+            full_message = base_message
+        
         return {
             "success": True,
             "role": "teacher",
             "full_name": teacher['full_name'],
             "subject": teacher['subject'],
-            "message": f"Welcome, {teacher['full_name']}! You are the {teacher['subject']} teacher."
+            "is_late": is_late,
+            "scheduled_class": class_name if is_late else None,
+            "minutes_late": minutes_late if is_late else 0,
+            "message": full_message
         }
     
     # Handle student scan
