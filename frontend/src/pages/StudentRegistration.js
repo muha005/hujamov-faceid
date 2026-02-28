@@ -114,9 +114,17 @@ const StudentRegistration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.fullName || !formData.classGrade || !formData.classSubsection || !formData.shift) {
-      toast.error(language === 'ky' ? 'Бардык талааларды толтуруңуз' : 'Заполните все поля');
-      return;
+    // Validate based on role
+    if (role === 'student') {
+      if (!formData.fullName || !formData.classGrade || !formData.classSubsection || !formData.shift) {
+        toast.error(language === 'ky' ? 'Бардык талааларды толтуруңуз' : 'Заполните все поля');
+        return;
+      }
+    } else {
+      if (!formData.fullName || !formData.subject) {
+        toast.error(language === 'ky' ? 'Бардык талааларды толтуруңуз' : 'Заполните все поля');
+        return;
+      }
     }
 
     if (!faceDescriptor) {
@@ -127,13 +135,21 @@ const StudentRegistration = () => {
     setRegistering(true);
 
     try {
-      await axios.post(`${API}/students`, {
-        full_name: formData.fullName,
-        class_grade: parseInt(formData.classGrade),
-        class_subsection: formData.classSubsection,
-        shift: formData.shift,
-        face_descriptor: faceDescriptor,
-      });
+      if (role === 'student') {
+        await axios.post(`${API}/students`, {
+          full_name: formData.fullName,
+          class_grade: parseInt(formData.classGrade),
+          class_subsection: formData.classSubsection,
+          shift: formData.shift,
+          face_descriptor: faceDescriptor,
+        });
+      } else {
+        await axios.post(`${API}/teachers`, {
+          full_name: formData.fullName,
+          subject: formData.subject,
+          face_descriptor: faceDescriptor,
+        });
+      }
 
       toast.success(t('registrationSuccess'));
       setTimeout(() => {
