@@ -328,63 +328,6 @@ const StudentRegistration = () => {
                   </div>
                 )}
 
-                <div className="space-y-2">
-                  <Label htmlFor="classGrade" className="text-sm font-semibold text-slate-700">
-                    {t('classGrade')}
-                  </Label>
-                  <Select value={formData.classGrade} onValueChange={(value) => setFormData({ ...formData, classGrade: value })}>
-                    <SelectTrigger className="bg-slate-50 border-slate-200" data-testid="class-grade-select">
-                      <SelectValue placeholder={language === 'ky' ? 'Талдоо' : 'Выбрать'} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {grades.map((grade) => (
-                        <SelectItem key={grade} value={grade.toString()}>
-                          {grade}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="classSubsection" className="text-sm font-semibold text-slate-700">
-                    {t('classSubsection')}
-                  </Label>
-                  <Select
-                    value={formData.classSubsection}
-                    onValueChange={(value) => setFormData({ ...formData, classSubsection: value })}
-                  >
-                    <SelectTrigger className="bg-slate-50 border-slate-200" data-testid="class-subsection-select">
-                      <SelectValue placeholder={language === 'ky' ? 'Талдоо' : 'Выбрать'} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {subsections.map((subsection) => (
-                        <SelectItem key={subsection} value={subsection}>
-                          {subsection}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="shift" className="text-sm font-semibold text-slate-700">
-                    {t('selectShift')}
-                  </Label>
-                  <Select
-                    value={formData.shift}
-                    onValueChange={(value) => setFormData({ ...formData, shift: value })}
-                  >
-                    <SelectTrigger className="bg-slate-50 border-slate-200" data-testid="shift-select">
-                      <SelectValue placeholder={language === 'ky' ? 'Сменаны тандаңыз' : 'Выберите смену'} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="morning">{t('morningShift')}</SelectItem>
-                      <SelectItem value="afternoon">{t('afternoonShift')}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
                 <div className="pt-4">
                   <div className="flex items-center justify-between mb-2">
                     <Label className="text-sm font-semibold text-slate-700">{t('captureFace')}</Label>
