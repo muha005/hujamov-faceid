@@ -627,6 +627,46 @@ async def get_class_of_week():
     
     return best_class
 
+@api_router.get("/analytics/daily-calendar")
+async def get_daily_calendar():
+    """Get daily statistics for the current week (Monday-Friday)"""
+    now = datetime.now(timezone.utc)
+    week_start = now - timedelta(days=now.weekday())  # Monday
+    
+    daily_stats = []
+    
+    for day_offset in range(5):  # Monday to Friday
+        current_day = week_start + timedelta(days=day_offset)
+        date_str = current_day.strftime("%Y-%m-%d")
+        day_name = current_day.strftime("%A")
+        
+        # Get attendance for this day
+        records = await db.attendance.find({"date": date_str}, {"_id": 0}).to_list(2000)
+        
+        # Get all students
+        total_students = await db.students.count_documents({})
+        
+        # Calculate statistics
+        present_count = len([r for r in records if r['status'] == 'present'])
+        late_count = len([r for r in records if r['status'] == 'late'])
+        absent_count = len([r for r in records if r['status'] == 'absent'])
+        
+        attendance_rate = 0
+        if total_students > 0:
+            attendance_rate = round(((present_count + late_count) / total_students) * 100, 2)
+        
+        daily_stats.append({
+            "date": date_str,
+            "day_name": day_name,
+            "total_students": total_students,
+            "present": present_count,
+            "late": late_count,
+            "absent": absent_count,
+            "attendance_rate": attendance_rate
+        })
+    
+    return daily_stats
+
 @api_router.get("/export/weekly")
 async def export_weekly_report():
     """Export weekly attendance report as Excel"""
