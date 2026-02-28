@@ -54,12 +54,14 @@ class Teacher(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     full_name: str
     subject: str  # Subject they teach (e.g., Mathematics, Informatics, English)
+    weekly_schedule: Optional[Dict[str, List[Dict[str, Any]]]] = None  # {day: [{time: "08:00", class: "5-A"}]}
     face_descriptor: List[float]
     registered_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class TeacherCreate(BaseModel):
     full_name: str
     subject: str
+    weekly_schedule: Optional[Dict[str, List[Dict[str, Any]]]] = None
     face_descriptor: List[float]
 
 class AttendanceRecord(BaseModel):
